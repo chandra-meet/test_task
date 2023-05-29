@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">To-Do List</string>
+    <string name="back_button">back</string>
+    <string name="options">filter option</string>
+    <string name="sort_by_title">Sort by title</string>
+    <string name="sort_by_status">Sort by status</string>
+    <string name="sort_by_date">Sort by date</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
+    <string name="warning">Warning</string>
+    <string name="first_line_warning">Do you want to delete</string>
+    <string name="last_line_warning">, this action can\'t be undone</string>
+    <string name="hint_task_title">Task Title</string>
+    <string name="hint_task_time">Time</string>
+    <string name="add">Add</string>
+    <string name="delete">delete</string>
+    <string name="task_list">Task List</string>
+    <string name="add_todo">add to do</string>
+    <string name="pending">Pending</string>
+    <string name="add_task_title">Add a task</string>
+    <string name="missing_fields">some fields missing</string>
+    <string name="invalid_time">Invalid expiry time</string>
+    <string name="to_do_added">"Item added in to do "</string>
+    <string name="your_to_do_list_is_empty">Your to do list is empty</string>
+
+    <string-array name="shifts">
+        <item>AM</item>
+        <item>PM</item>
+    </string-array>
+</resources>

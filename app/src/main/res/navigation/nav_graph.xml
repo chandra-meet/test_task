@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/navigation"
+    app:startDestination="@id/homeListFragment">
+
+    <fragment
+        android:id="@+id/addToListFragment"
+        android:name="com.example.to_dolist.ui.fragments.AddToListFragment"
+        android:label="AddToListFragment" />
+
+
+    <fragment
+        android:id="@+id/homeListFragment"
+        android:name="com.example.to_dolist.ui.fragments.HomeListFragment"
+        android:label="HomeListFragment">
+        <action
+            android:id="@+id/action_homeListFragment_to_addToListFragment"
+            app:destination="@id/addToListFragment" />
+    </fragment>
+</navigation>
