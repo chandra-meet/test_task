@@ -8,7 +8,7 @@ sealed interface ToDoActions {
 
     data class SetTitle(val title: String) : ToDoActions
     data class SetId(val id: Int) : ToDoActions
-    data class SetDate(val date: String) : ToDoActions
+    data class SetDate(val date: Date) : ToDoActions
     data class SetStatus(val status: String) : ToDoActions
     data class SortToDoList(val sortType: SortType) : ToDoActions
     data class DeleteToDo(val toDo: ToDoModel) : ToDoActions

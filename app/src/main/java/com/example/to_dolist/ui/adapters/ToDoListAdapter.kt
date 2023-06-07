@@ -35,7 +35,7 @@ class ToDoListAdapter(
             item.apply {
                 binding.tvTaskTitle.text = this.title
 
-                binding.tvTaskTime.text = this.date
+                binding.tvTaskTime.text = dateToString(this.date)
 
                 if (this.status != STATUS_COMPLETED && this.date.isExpired()) {
                     binding.tvTaskStatus.visibility = View.VISIBLE
@@ -43,15 +43,14 @@ class ToDoListAdapter(
                     binding.tvTaskStatus.visibility = View.GONE
                 }
                 binding.chkMarkComplete.isChecked = this.status == STATUS_COMPLETED
-                if (binding.chkMarkComplete.isChecked)
+                if (binding.chkMarkComplete.isChecked) {
                     binding.tvTaskTitle.paintFlags =
                         binding.tvTaskTitle.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-                else {
+                } else {
                     binding.tvTaskTitle.paintFlags =
                         binding.tvTaskTitle.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
                     binding.tvTaskTitle.paintFlags =
                         binding.tvTaskTitle.paintFlags and Paint.UNDERLINE_TEXT_FLAG.inv()
-
                 }
                 binding.chkMarkComplete.setOnCheckedChangeListener { buttonView, isChecked ->
                     if (isChecked)
@@ -59,6 +58,7 @@ class ToDoListAdapter(
                     else
                         this.status = STATUS_CREATED
                     onMarkAsCompleted(this)
+                    notifyItemChanged(position)
                 }
 
                 binding.ivDeleteToDo.setOnClickListener {
@@ -66,7 +66,6 @@ class ToDoListAdapter(
                 }
             }
 
-            // Set other views using binding
         }
     }
 
@@ -91,8 +90,13 @@ class ToDoListAdapter(
     }
 
     fun dateToString(date: Date): String {
-        val format = SimpleDateFormat("hh:mm a", Locale.getDefault())
-        return format.format(date)
+
+        val dateFormat = SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy")
+        val dateTime = dateFormat.parse(date.toString())
+        val localFormat = SimpleDateFormat("hh:mm a")
+        localFormat.timeZone = TimeZone.getTimeZone("IST")
+        val localTime = localFormat.format(dateTime)
+        return localTime
     }
 
     override fun onBindViewHolder(holder: ToDoViewHolder, position: Int) {

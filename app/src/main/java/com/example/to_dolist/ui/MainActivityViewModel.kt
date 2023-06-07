@@ -108,7 +108,7 @@ class MainActivityViewModel @Inject constructor(private val toDoRepository: ToDo
                         id = 0,
                         isAddingToDo = false,
                         title = "",
-                        date = "",
+                        date = Date(),
                         status = ""
                     )
                 }

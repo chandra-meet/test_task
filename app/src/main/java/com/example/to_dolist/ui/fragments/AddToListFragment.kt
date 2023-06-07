@@ -1,6 +1,5 @@
 package com.example.to_dolist.ui.fragments
 
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -22,8 +20,6 @@ import com.example.to_dolist.util.isExpired
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.StateFlow
 import java.text.SimpleDateFormat
-import java.time.LocalDateTime
-import java.time.ZoneId
 import java.util.*
 
 @AndroidEntryPoint
@@ -85,7 +81,7 @@ class AddToListFragment : Fragment() {
                     Toast.LENGTH_SHORT
                 ).show()
                 return@setOnClickListener
-            } else if (date.isEmpty()) {
+            } else if (date == null) {
                 Toast.makeText(
                     requireContext(),
                     getString(R.string.invalid_time),
@@ -109,14 +105,7 @@ class AddToListFragment : Fragment() {
                 reset()
 
             }
-            /*  state.value.title = "${binding.etTaskTitle.text}"
-              convertTimeToDate("07:00 am")?.let {
-                  state.value.date = it
-              }
-              state.value.status = "pending"
-              viewModel.state = state
 
-              viewModel.onToDoAction(ToDoActions.addToDo)*/
         }
 
     }
@@ -128,17 +117,33 @@ class AddToListFragment : Fragment() {
         binding.etTaskTitle.requestFocus()
     }
 
-    fun convertToDate(dateString: String?): String {
+    private fun convertToDate(dateString: String?): Date? {
         try {
-            val pattern = "hh:mm a"
-            val formatter = SimpleDateFormat(pattern)
-            val parceDate = formatter.parse(dateString)
-            val date = formatter.format(parceDate)
-            println("Parsed Date: $date")
-            return date
+
+
+            val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm a")
+            dateFormat.timeZone = TimeZone.getTimeZone("UTC")
+            val currentDate = Date()
+            val formattedDate = SimpleDateFormat("yyyy-MM-dd").format(currentDate)
+
+            val timeString = "$formattedDate $dateString"
+            val dateTime = dateFormat.parse(timeString)
+
+
+            Log.e("TAG", "convertToDate: " + dateTime)
+            print(dateTime)
+
+            return dateTime
+
+            /*  val pattern = "hh:mm a"
+              val formatter = SimpleDateFormat(pattern)
+              val parceDate = formatter.parse(dateString)
+              val date = formatter.format(parceDate)
+              println("Parsed Date: $date")
+              return date*/
         } catch (e: Exception) {
             e.printStackTrace()
-            return ""
+            return null
         }
     }
 

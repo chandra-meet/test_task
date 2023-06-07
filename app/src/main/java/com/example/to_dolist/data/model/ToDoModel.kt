@@ -14,6 +14,6 @@ data class ToDoModel(
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0,
     var title: String,
-    var date: String,
+    var date: Date,
     var status: String,
 ) : Parcelable

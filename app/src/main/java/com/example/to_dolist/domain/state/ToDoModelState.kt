@@ -8,7 +8,7 @@ data class ToDoModelState(
     val todoList: List<ToDoModel> = emptyList(),
     var id: Int = 0,
     var title: String = "",
-    var date: String = "",
+    var date: Date = Date(),
     var status: String = "",
     val isAddingToDo: Boolean = false,
     val sortType: SortType = SortType.DATE,

@@ -7,7 +7,7 @@ import com.example.to_dolist.data.model.ToDoModel
 import com.example.to_dolist.util.DateConverterType
 
 @Database(
-    version = 2, entities = [ToDoModel::class], exportSchema = false
+    version = 3, entities = [ToDoModel::class], exportSchema = false
 )
 @TypeConverters(DateConverterType::class)
 abstract class AppDatabase : RoomDatabase() {
