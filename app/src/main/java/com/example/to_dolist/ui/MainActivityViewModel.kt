@@ -92,12 +92,11 @@ class MainActivityViewModel @Inject constructor(private val toDoRepository: ToDo
                     return
                 }
 
-                val todo =
-                    if (id > 0) {
-                        ToDoModel(title = title, date = date, status = status, id = id)
-                    } else {
-                        ToDoModel(title = title, date = date, status = status)
-                    }
+                val todo = if (id > 0) {
+                    ToDoModel(title = title, date = date, status = status, id = id)
+                } else {
+                    ToDoModel(title = title, date = date, status = status)
+                }
 
                 viewModelScope.launch {
                     toDoRepository.upsertToDo(todo)

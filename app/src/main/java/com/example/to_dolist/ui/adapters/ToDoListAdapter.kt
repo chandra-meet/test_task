@@ -19,8 +19,8 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 
 class ToDoListAdapter(
-    val onMarkAsCompleted: (ToDoModel) -> Unit,
-    val onDelete: (ToDoModel) -> Unit,
+    val onMarkAsCompleted: (ToDoModel,Int) -> Unit,
+    val onDelete: (ToDoModel,Int) -> Unit,
 ) :
     Adapter<ToDoListAdapter.ToDoViewHolder>() {
 
@@ -30,7 +30,7 @@ class ToDoListAdapter(
 
     inner class ToDoViewHolder(private val binding: RowToDoItemBinding) :
         ViewHolder(binding.root) {
-        fun bind(item: ToDoModel) {
+        fun bind(item: ToDoModel,position: Int) {
 
             item.apply {
                 binding.tvTaskTitle.text = this.title
@@ -52,17 +52,17 @@ class ToDoListAdapter(
                     binding.tvTaskTitle.paintFlags =
                         binding.tvTaskTitle.paintFlags and Paint.UNDERLINE_TEXT_FLAG.inv()
                 }
+
                 binding.chkMarkComplete.setOnCheckedChangeListener { buttonView, isChecked ->
-                    if (isChecked)
+                  /*  if (isChecked)
                         this.status = STATUS_COMPLETED
                     else
-                        this.status = STATUS_CREATED
-                    onMarkAsCompleted(this)
-                    notifyItemChanged(position)
+                        this.status = STATUS_CREATED*/
+                    onMarkAsCompleted(this,position)
                 }
 
                 binding.ivDeleteToDo.setOnClickListener {
-                    onDelete(this)
+                    onDelete(this,position)
                 }
             }
 
@@ -94,14 +94,13 @@ class ToDoListAdapter(
         val dateFormat = SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy")
         val dateTime = dateFormat.parse(date.toString())
         val localFormat = SimpleDateFormat("hh:mm a")
-        localFormat.timeZone = TimeZone.getTimeZone("IST")
         val localTime = localFormat.format(dateTime)
         return localTime
     }
 
     override fun onBindViewHolder(holder: ToDoViewHolder, position: Int) {
         val item = todoItems[position]
-        holder.bind(item)
+        holder.bind(item,position)
     }
 
 }

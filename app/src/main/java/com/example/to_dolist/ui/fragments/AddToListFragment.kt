@@ -122,25 +122,22 @@ class AddToListFragment : Fragment() {
 
 
             val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm a")
-            dateFormat.timeZone = TimeZone.getTimeZone("UTC")
             val currentDate = Date()
             val formattedDate = SimpleDateFormat("yyyy-MM-dd").format(currentDate)
 
             val timeString = "$formattedDate $dateString"
             val dateTime = dateFormat.parse(timeString)
 
+            val outputDateFormat = SimpleDateFormat("EEE MMM dd HH:mm:ss 'GMT'Z yyyy")
 
-            Log.e("TAG", "convertToDate: " + dateTime)
-            print(dateTime)
+            val output = outputDateFormat.format(dateTime)
 
-            return dateTime
+            Log.e("TAG", "convertToDate: " + outputDateFormat.parse(output))
+            print(outputDateFormat.parse(output))
 
-            /*  val pattern = "hh:mm a"
-              val formatter = SimpleDateFormat(pattern)
-              val parceDate = formatter.parse(dateString)
-              val date = formatter.format(parceDate)
-              println("Parsed Date: $date")
-              return date*/
+            return outputDateFormat.parse(output)
+
+
         } catch (e: Exception) {
             e.printStackTrace()
             return null

@@ -2,23 +2,31 @@ package com.example.to_dolist.ui.fragments
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.*
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.example.to_dolist.MainActivity
 import com.example.to_dolist.R
 import com.example.to_dolist.data.model.ToDoModel
 import com.example.to_dolist.databinding.FragmentHomeBinding
 import com.example.to_dolist.ui.MainActivityViewModel
 import com.example.to_dolist.ui.adapters.ToDoListAdapter
+import com.example.to_dolist.util.Constants.STATUS_COMPLETED
+import com.example.to_dolist.util.Constants.STATUS_CREATED
+import com.example.to_dolist.util.Constants.STATUS_PENDING
 import com.example.to_dolist.util.SortType
 import com.example.to_dolist.util.ToDoActions
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
@@ -87,15 +95,22 @@ class HomeListFragment : Fragment() {
     }
 
 
-    private fun markAsCompleteEvent(toDoModel: ToDoModel) {
+    private fun markAsCompleteEvent(toDoModel: ToDoModel, position: Int) {
+
+        if (toDoModel.status == STATUS_CREATED || toDoModel.status == STATUS_PENDING)
+            toDoModel.status = STATUS_COMPLETED
+        else
+            toDoModel.status = STATUS_CREATED
+
         onEvent(ToDoActions.SetId(toDoModel.id))
         onEvent(ToDoActions.SetTitle(toDoModel.title))
         onEvent(ToDoActions.SetDate(toDoModel.date))
         onEvent(ToDoActions.SetStatus(toDoModel.status))
         onEvent(ToDoActions.AddToDo)
+
     }
 
-    private fun onDelete(toDoModel: ToDoModel) {
+    private fun onDelete(toDoModel: ToDoModel, position: Int) {
         (activity as MainActivity).showAlert(toDoModel.title) {
             onEvent(ToDoActions.DeleteToDo(toDoModel))
         }
